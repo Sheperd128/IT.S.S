@@ -21,7 +21,7 @@ const ArcadeHub = () => {
   useEffect(() => {
     const fetchLeaderboard = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/users/leaderboard');
+        const res = await axios.get('https://itss-backend-upy6.onrender.com/api/users/leaderboard');
         setLeaderboard(res.data);
       } catch (error) { console.error("Failed to load leaderboard"); }
     };
@@ -31,7 +31,7 @@ const ArcadeHub = () => {
   const handleWin = async (pointsEarned) => {
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      const res = await axios.put('http://localhost:5000/api/users/points', { points: pointsEarned }, config);
+      const res = await axios.put('https://itss-backend-upy6.onrender.com/api/users/points', { points: pointsEarned }, config);
       const updatedUser = { ...user, stats: { ...user.stats, points: res.data.points } };
       setUser(updatedUser);
       localStorage.setItem('userInfo', JSON.stringify(updatedUser));
@@ -43,7 +43,7 @@ const ArcadeHub = () => {
     if (!url || url.includes('placeholder.com') || url.includes('NO+IMAGE')) {
       return `https://api.dicebear.com/9.x/bottts-neutral/svg?seed=${fallbackSeed}`;
     }
-    if (url.startsWith('/')) return `http://localhost:5000${url}`;
+    if (url.startsWith('/')) return `https://itss-backend-upy6.onrender.com${url}`;
     return url;
   };
 

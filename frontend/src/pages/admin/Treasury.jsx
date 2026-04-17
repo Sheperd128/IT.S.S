@@ -28,7 +28,7 @@ export default function Treasury() {
   const fetchClaims = async () => {
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      const { data } = await axios.get('http://localhost:5000/api/treasury', config);
+      const { data } = await axios.get('https://itss-backend-upy6.onrender.com/api/treasury', config);
       setClaims(data);
     } catch (error) { console.error('Failed to fetch claims'); }
   };
@@ -36,7 +36,7 @@ export default function Treasury() {
   const fetchBudget = async () => {
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      const { data } = await axios.get('http://localhost:5000/api/treasury/budget', config);
+      const { data } = await axios.get('https://itss-backend-upy6.onrender.com/api/treasury/budget', config);
       setTotalBudget(data.totalBudget);
     } catch (error) { console.error('Failed to fetch budget'); }
   };
@@ -46,7 +46,7 @@ export default function Treasury() {
     e.preventDefault();
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      await axios.post('http://localhost:5000/api/treasury', formData, config);
+      await axios.post('https://itss-backend-upy6.onrender.com/api/treasury', formData, config);
       setFormData({ title: '', description: '', amount: '' });
       fetchClaims();
       alert("Fund request submitted to Treasury.");
@@ -60,7 +60,7 @@ export default function Treasury() {
     
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      await axios.put('http://localhost:5000/api/treasury/budget', { amount: amountToApply }, config);
+      await axios.put('https://itss-backend-upy6.onrender.com/api/treasury/budget', { amount: amountToApply }, config);
       setAdjustAmount('');
       fetchBudget();
     } catch (error) { alert('Failed to adjust budget'); }
@@ -74,7 +74,7 @@ export default function Treasury() {
   const submitReview = async () => {
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      await axios.put(`http://localhost:5000/api/treasury/${reviewModal.claim._id}/status`, { 
+      await axios.put(`https://itss-backend-upy6.onrender.com/api/treasury/${reviewModal.claim._id}/status`, { 
         status: reviewModal.action,
         reviewerNote: reviewModal.note 
       }, config);

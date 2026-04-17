@@ -8,7 +8,7 @@ export default function MeetTheTeam() {
   useEffect(() => {
     const fetchTeam = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/users/public-team');
+        const response = await axios.get('https://itss-backend-upy6.onrender.com/api/users/public-team');
         setLeaders(response.data);
       } catch (error) {
         console.error("Failed to fetch team", error);

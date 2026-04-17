@@ -13,7 +13,7 @@ export default function Events() {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const { data } = await axios.get('http://localhost:5000/api/operations/events');
+        const { data } = await axios.get('https://itss-backend-upy6.onrender.com/api/operations/events');
         setEvents(data);
       } catch (error) { console.error('Failed to fetch events'); }
     };

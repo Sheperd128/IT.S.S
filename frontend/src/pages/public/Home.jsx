@@ -17,7 +17,7 @@ const Home = () => {
   useEffect(() => {
     const fetchContent = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/admin/content');
+        const response = await axios.get('https://itss-backend-upy6.onrender.com/api/admin/content');
         if (response.data) setContent(response.data);
       } catch (error) {
         console.error("Failed to load dynamic content", error);

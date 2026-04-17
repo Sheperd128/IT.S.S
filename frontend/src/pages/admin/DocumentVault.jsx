@@ -24,7 +24,7 @@ export default function DocumentVault() {
   const fetchDocuments = async () => {
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      const { data } = await axios.get('http://localhost:5000/api/documents', config);
+      const { data } = await axios.get('https://itss-backend-upy6.onrender.com/api/documents', config);
       setDocuments(data);
     } catch (error) { console.error('Failed to fetch docs'); }
   };
@@ -39,7 +39,7 @@ export default function DocumentVault() {
 
     try {
       const config = { headers: { 'Content-Type': 'multipart/form-data', Authorization: `Bearer ${user.token}` } };
-      const { data } = await axios.post('http://localhost:5000/api/upload', uploadData, config);
+      const { data } = await axios.post('https://itss-backend-upy6.onrender.com/api/upload', uploadData, config);
       
       setFormData({ ...formData, fileUrl: data });
       setUploading(false);
@@ -58,10 +58,10 @@ export default function DocumentVault() {
 
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      await axios.post('http://localhost:5000/api/documents', formData, config);
+      await axios.post('https://itss-backend-upy6.onrender.com/api/documents', formData, config);
       
       // NEW: Log this action to the Audit system silently
-      await axios.post('http://localhost:5000/api/audit', {
+      await axios.post('https://itss-backend-upy6.onrender.com/api/audit', {
         action: `Uploaded a new ${formData.category}`,
         details: `Document: ${formData.title}`
       }, config).catch(() => {}); // Ignore audit errors so it doesn't break upload
@@ -76,10 +76,10 @@ export default function DocumentVault() {
     if (!window.confirm('Permanently archive this record?')) return;
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      await axios.delete(`http://localhost:5000/api/documents/${id}`, config);
+      await axios.delete(`https://itss-backend-upy6.onrender.com/api/documents/${id}`, config);
       
       // Audit Log
-      await axios.post('http://localhost:5000/api/audit', {
+      await axios.post('https://itss-backend-upy6.onrender.com/api/audit', {
         action: `Deleted a document`, details: `Document: ${title}`
       }, config).catch(() => {});
 
@@ -146,7 +146,7 @@ export default function DocumentVault() {
                       </button>
                     </div>
                   ) : doc.fileUrl ? (
-                    <a href={doc.fileUrl.startsWith('http') ? doc.fileUrl : `http://localhost:5000${doc.fileUrl}`} target="_blank" rel="noreferrer" className="mt-4 inline-block text-sm text-itss-primary hover:text-white transition-colors font-bold uppercase tracking-widest">
+                    <a href={doc.fileUrl.startsWith('http') ? doc.fileUrl : `https://itss-backend-upy6.onrender.com${doc.fileUrl}`} target="_blank" rel="noreferrer" className="mt-4 inline-block text-sm text-itss-primary hover:text-white transition-colors font-bold uppercase tracking-widest">
                       [ Access Attached Record ]
                     </a>
                   ) : null}

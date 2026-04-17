@@ -36,7 +36,7 @@ export default function Profile() {
     if (!url || url.includes('placeholder.com') || url.includes('NO+IMAGE')) {
       return `https://api.dicebear.com/9.x/bottts-neutral/svg?seed=${user?._id || 'fallback'}`;
     }
-    if (url.startsWith('/')) return `http://localhost:5000${url}`;
+    if (url.startsWith('/')) return `https://itss-backend-upy6.onrender.com${url}`;
     return url;
   };
 
@@ -45,7 +45,7 @@ export default function Profile() {
     setSaveStatus('Saving Profile...');
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      await axios.put(`http://localhost:5000/api/admin/users/${user._id}`, { ...user, ...formData }, config);
+      await axios.put(`https://itss-backend-upy6.onrender.com/api/admin/users/${user._id}`, { ...user, ...formData }, config);
       
       const updatedUser = { ...user, bio: formData.bio, profilePic: formData.profilePic };
       setUser(updatedUser);

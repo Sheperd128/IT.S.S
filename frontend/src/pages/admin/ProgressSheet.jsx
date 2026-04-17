@@ -22,7 +22,7 @@ export default function ProgressSheet() {
   const fetchTasks = async () => {
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      const { data } = await axios.get('http://localhost:5000/api/operations/tasks', config);
+      const { data } = await axios.get('https://itss-backend-upy6.onrender.com/api/operations/tasks', config);
       setTasks(data);
     } catch (error) { console.error('Failed to fetch tasks'); }
   };
@@ -37,7 +37,7 @@ export default function ProgressSheet() {
       const payload = { ...formData, dueDate: combinedDate };
 
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      await axios.post('http://localhost:5000/api/operations/tasks', payload, config);
+      await axios.post('https://itss-backend-upy6.onrender.com/api/operations/tasks', payload, config);
       
       // Reset form but keep the user's team selected
       setFormData({ 
@@ -57,7 +57,7 @@ export default function ProgressSheet() {
   const updateStatus = async (id, status, needsExecHelp) => {
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      await axios.put(`http://localhost:5000/api/operations/tasks/${id}`, { status, needsExecHelp }, config);
+      await axios.put(`https://itss-backend-upy6.onrender.com/api/operations/tasks/${id}`, { status, needsExecHelp }, config);
       fetchTasks();
     } catch (error) { alert('Update failed'); }
   };
@@ -66,7 +66,7 @@ export default function ProgressSheet() {
     if (!window.confirm('Delete this task?')) return;
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      await axios.delete(`http://localhost:5000/api/operations/tasks/${id}`, config);
+      await axios.delete(`https://itss-backend-upy6.onrender.com/api/operations/tasks/${id}`, config);
       fetchTasks();
     } catch (error) { alert('Delete failed'); }
   };

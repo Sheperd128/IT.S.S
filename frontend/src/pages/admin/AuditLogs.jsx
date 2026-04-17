@@ -14,7 +14,7 @@ export default function AuditLogs() {
         // Assuming you made a quick router.get('/api/audit') for this! 
         // For now, we will fetch directly from operations if you attach it there, 
         // but creating a dedicated audit route in backend/server.js is best.
-        const { data } = await axios.get('http://localhost:5000/api/audit', config);
+        const { data } = await axios.get('https://itss-backend-upy6.onrender.com/api/audit', config);
         setLogs(data);
       } catch (error) { console.error('Failed to fetch logs'); }
     };

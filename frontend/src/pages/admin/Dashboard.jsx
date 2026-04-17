@@ -23,9 +23,9 @@ const Dashboard = () => {
       
       // Fetch Tasks, Events, and the new Budget securely
       const [taskRes, eventRes, budgetRes] = await Promise.all([
-        axios.get('http://localhost:5000/api/operations/tasks', config),
-        axios.get('http://localhost:5000/api/operations/events', config),
-        axios.get('http://localhost:5000/api/treasury/budget', config)
+        axios.get('https://itss-backend-upy6.onrender.com/api/operations/tasks', config),
+        axios.get('https://itss-backend-upy6.onrender.com/api/operations/events', config),
+        axios.get('https://itss-backend-upy6.onrender.com/api/treasury/budget', config)
       ]);
       
       setTasks(taskRes.data);
@@ -41,7 +41,7 @@ const Dashboard = () => {
   const toggleFlag = async (task) => {
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      await axios.put(`http://localhost:5000/api/operations/tasks/${task._id}`, { needsExecHelp: !task.needsExecHelp }, config);
+      await axios.put(`https://itss-backend-upy6.onrender.com/api/operations/tasks/${task._id}`, { needsExecHelp: !task.needsExecHelp }, config);
       fetchDashboardData();
     } catch (error) { alert('Failed to update flag status'); }
   };
@@ -50,7 +50,7 @@ const Dashboard = () => {
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
       const newStatus = task.status === 'Completed' ? 'In Progress' : 'Completed';
-      await axios.put(`http://localhost:5000/api/operations/tasks/${task._id}`, { status: newStatus }, config);
+      await axios.put(`https://itss-backend-upy6.onrender.com/api/operations/tasks/${task._id}`, { status: newStatus }, config);
       fetchDashboardData();
     } catch (error) { alert('Failed to update task'); }
   };

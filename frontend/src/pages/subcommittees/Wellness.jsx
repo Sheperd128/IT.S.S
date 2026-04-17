@@ -12,8 +12,8 @@ export default function Wellness() {
     const fetchData = async () => {
       try {
         const [subRes, teamRes] = await Promise.all([
-          axios.get('http://localhost:5000/api/operations/subcommittee/Wellness'),
-          axios.get('http://localhost:5000/api/users/public-team')
+          axios.get('https://itss-backend-upy6.onrender.com/api/operations/subcommittee/Wellness'),
+          axios.get('https://itss-backend-upy6.onrender.com/api/users/public-team')
         ]);
         setData(subRes.data);
         setTeam(teamRes.data.filter(member => member.team === 'Wellness'));

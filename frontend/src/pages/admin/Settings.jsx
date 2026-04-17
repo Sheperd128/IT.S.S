@@ -26,7 +26,7 @@ export default function Settings() {
   useEffect(() => {
     const fetchContent = async () => {
       try {
-        const { data } = await axios.get('http://localhost:5000/api/admin/content');
+        const { data } = await axios.get('https://itss-backend-upy6.onrender.com/api/admin/content');
         if (data) setSiteContent(data);
       } catch (error) { console.error("Fetch error"); }
     };
@@ -51,7 +51,7 @@ export default function Settings() {
     setSaveStatus('Saving to Database...');
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      await axios.put('http://localhost:5000/api/admin/content', siteContent, config);
+      await axios.put('https://itss-backend-upy6.onrender.com/api/admin/content', siteContent, config);
       setSaveStatus('Configuration Locked!');
       setTimeout(() => setSaveStatus(''), 3000);
     } catch (error) { setSaveStatus('Error saving'); }

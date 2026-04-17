@@ -24,7 +24,7 @@ export const ThemeProvider = ({ children }) => {
 
   const fetchAndApplyTheme = async () => {
     try {
-      const { data } = await axios.get('http://localhost:5000/api/admin/content');
+      const { data } = await axios.get('https://itss-backend-upy6.onrender.com/api/admin/content');
       if (data?.themeConfig?.colors) {
         applyThemeToDOM(data.themeConfig.colors);
       }

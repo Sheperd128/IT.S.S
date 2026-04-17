@@ -18,7 +18,7 @@ export default function SubcommitteeEditor() {
   const fetchSubInfo = async () => {
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      const { data } = await axios.get(`http://localhost:5000/api/operations/subcommittee/${selectedTeam}`, config);
+      const { data } = await axios.get(`https://itss-backend-upy6.onrender.com/api/operations/subcommittee/${selectedTeam}`, config);
       
       const inits = data.initiatives || [];
       while (inits.length < 4) inits.push('');
@@ -39,7 +39,7 @@ export default function SubcommitteeEditor() {
     setSaveStatus('Encrypting Payload...');
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      await axios.put(`http://localhost:5000/api/operations/subcommittee/${selectedTeam}`, formData, config);
+      await axios.put(`https://itss-backend-upy6.onrender.com/api/operations/subcommittee/${selectedTeam}`, formData, config);
       setSaveStatus('Data Secured.');
       setTimeout(() => setSaveStatus(''), 3000);
     } catch (error) { setSaveStatus('Error saving'); }
@@ -72,9 +72,9 @@ export default function SubcommitteeEditor() {
 
     try {
       const config = { headers: { 'Content-Type': 'multipart/form-data', Authorization: `Bearer ${user.token}` } };
-      const { data } = await axios.post('http://localhost:5000/api/upload', uploadData, config);
+      const { data } = await axios.post('https://itss-backend-upy6.onrender.com/api/upload', uploadData, config);
       // Update the URL field with the uploaded file path
-      handleArrayChange('gallery', index, 'url', `http://localhost:5000${data}`);
+      handleArrayChange('gallery', index, 'url', `https://itss-backend-upy6.onrender.com${data}`);
     } catch (error) {
       alert('File upload failed. Ensure it is a valid format (.jpg, .png).');
     }

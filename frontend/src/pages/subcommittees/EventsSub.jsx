@@ -12,9 +12,9 @@ export default function EventsSub() {
     const fetchData = async () => {
       try {
         const [subRes, teamRes, eventRes] = await Promise.all([
-          axios.get('http://localhost:5000/api/operations/subcommittee/Events'),
-          axios.get('http://localhost:5000/api/users/public-team'),
-          axios.get('http://localhost:5000/api/operations/events')
+          axios.get('https://itss-backend-upy6.onrender.com/api/operations/subcommittee/Events'),
+          axios.get('https://itss-backend-upy6.onrender.com/api/users/public-team'),
+          axios.get('https://itss-backend-upy6.onrender.com/api/operations/events')
         ]);
         setData(subRes.data);
         setTeam(teamRes.data.filter(member => member.team === 'Events'));
@@ -27,7 +27,7 @@ export default function EventsSub() {
   // Helper function to safely load both external web links and internal backend uploads
   const getImageUrl = (url) => {
     if (!url) return '';
-    return url.startsWith('/') ? `http://localhost:5000${url}` : url;
+    return url.startsWith('/') ? `https://itss-backend-upy6.onrender.com${url}` : url;
   };
 
   if (!data) return <div className="min-h-screen bg-itss-black text-itss-secondary flex justify-center items-center font-stencil text-2xl animate-pulse">Loading Event Matrix...</div>;

@@ -20,7 +20,7 @@ const TeamManager = () => {
   const fetchTeam = async () => {
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      const response = await axios.get('http://localhost:5000/api/users', config);
+      const response = await axios.get('https://itss-backend-upy6.onrender.com/api/users', config);
       setTeam(response.data.filter(u => u.team !== 'General'));
     } catch (error) {
       console.error("Fetch error", error);
@@ -33,7 +33,7 @@ const TeamManager = () => {
     
     // Call the public register route, but we will bypass login since we are just adding them
     try {
-      await axios.post('http://localhost:5000/api/auth/register', formData);
+      await axios.post('https://itss-backend-upy6.onrender.com/api/auth/register', formData);
       alert('Personnel Added Successfully!');
       setFormData({ name: '', email: '', phoneNumber: '', password: '', confirmPassword: '', team: 'Academics', title: 'Lead', isApproved: true });
       fetchTeam();
@@ -46,7 +46,7 @@ const TeamManager = () => {
     if (window.confirm('Confirm termination of personnel?')) {
       try {
         const config = { headers: { Authorization: `Bearer ${user.token}` } };
-        await axios.delete(`http://localhost:5000/api/admin/users/${id}`, config);
+        await axios.delete(`https://itss-backend-upy6.onrender.com/api/admin/users/${id}`, config);
         fetchTeam();
       } catch (error) {
         alert('Failed to terminate');

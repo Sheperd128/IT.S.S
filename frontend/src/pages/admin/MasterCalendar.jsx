@@ -22,7 +22,7 @@ export default function MasterCalendar() {
 
   const fetchEvents = async () => {
     try {
-      const { data } = await axios.get('http://localhost:5000/api/operations/events');
+      const { data } = await axios.get('https://itss-backend-upy6.onrender.com/api/operations/events');
       setEvents(data);
     } catch (error) { console.error('Failed to fetch events'); }
   };
@@ -36,7 +36,7 @@ export default function MasterCalendar() {
       const payload = { ...formData, date: combinedDate };
 
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      await axios.post('http://localhost:5000/api/operations/events', payload, config);
+      await axios.post('https://itss-backend-upy6.onrender.com/api/operations/events', payload, config);
       
       setFormData({ title: '', description: '', location: '', organizingSubcommittee: user?.team || 'Events' });
       setFormDate('');
@@ -51,7 +51,7 @@ export default function MasterCalendar() {
   const approveEvent = async (id) => {
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      await axios.put(`http://localhost:5000/api/operations/events/${id}/status`, { status: 'Approved' }, config);
+      await axios.put(`https://itss-backend-upy6.onrender.com/api/operations/events/${id}/status`, { status: 'Approved' }, config);
       fetchEvents();
       setSelectedEvent(null); // Close modal on approve
     } catch (error) { alert('Approval failed'); }
@@ -61,7 +61,7 @@ export default function MasterCalendar() {
     if (!window.confirm('Delete this event?')) return;
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      await axios.delete(`http://localhost:5000/api/operations/events/${id}`, config);
+      await axios.delete(`https://itss-backend-upy6.onrender.com/api/operations/events/${id}`, config);
       fetchEvents();
       setSelectedEvent(null);
     } catch (error) { alert('Delete failed'); }
