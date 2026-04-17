@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Setup the default Fallback Variables so the site doesn't break while loading */
+:root {
+  --color-primary: 157 205 90; /* #9DCD5A */
+  --color-secondary: 179 136 255; /* #b388ff */
+  --color-success: 0 230 118; /* #00e676 */
+  --color-warning: 255 234 0; /* #ffea00 */
+  --color-danger: 255 23 68; /* #ff1744 */
+  --color-orange: 255 145 0; /* #ff9100 */
+}
+
+@layer base {
+  body {
+    @apply bg-itss-black text-itss-white font-consolas antialiased;
+    background-image: radial-gradient(#2a2a2a 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-stencil;
+  }
+}
+
+@layer utilities {
+  .cutout-text {
+    @apply bg-itss-white text-itss-black px-3 py-1 inline-block uppercase tracking-widest shadow-magazine;
+  }
+  .cutout-tilt-left { transform: rotate(-2deg); }
+  .cutout-tilt-right { transform: rotate(2deg); }
+  .text-glow {
+    text-shadow: 0 0 15px rgb(var(--color-primary) / 0.6), 0 0 30px rgb(var(--color-primary) / 0.3);
+  }
+}
