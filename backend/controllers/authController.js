@@ -3,10 +3,10 @@ const jwt = require('jsonwebtoken');
 
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_EXPIRE,
+    // If JWT_EXPIRE is missing, it will automatically default to '30d'
+    expiresIn: process.env.JWT_EXPIRE || '30d', 
   });
 };
-
 const registerUser = async (req, res) => {
   try {
     const { name, email, phoneNumber, password, team, title } = req.body;
