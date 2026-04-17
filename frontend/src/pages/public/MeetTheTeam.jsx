@@ -8,7 +8,8 @@ export default function MeetTheTeam() {
   useEffect(() => {
     const fetchTeam = async () => {
       try {
-        const response = await axios.get('https://itss-backend-upy6.onrender.com/api/users/public-team');
+        // Utilizing the global Axios base URL we set in main.jsx
+        const response = await axios.get('/api/users/public-team');
         setLeaders(response.data);
       } catch (error) {
         console.error("Failed to fetch team", error);
@@ -18,6 +19,15 @@ export default function MeetTheTeam() {
     };
     fetchTeam();
   }, []);
+
+  // THE FIX: Smart Image Loader to point Vercel to Render for images
+  const getImageUrl = (url, fallbackSeed) => {
+    if (!url || url.includes('placeholder.com') || url.includes('NO+IMAGE')) {
+      return `https://api.dicebear.com/9.x/bottts-neutral/svg?seed=${fallbackSeed}`;
+    }
+    if (url.startsWith('/')) return `https://itss-backend-upy6.onrender.com${url}`;
+    return url;
+  };
 
   const getTeamMembers = (teamName) => leaders.filter(user => user.team === teamName);
 
@@ -38,7 +48,12 @@ export default function MeetTheTeam() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {getTeamMembers('Executive').map(member => (
               <div key={member._id} className="bg-zinc-900 border-2 border-white shadow-magazine-dark overflow-hidden group">
-                <img src={member.profilePic} alt={member.name} className="w-full aspect-square object-cover grayscale group-hover:grayscale-0 transition-all duration-500" />
+                <img 
+                  src={getImageUrl(member.profilePic, member._id)} 
+                  alt={member.name} 
+                  className="w-full aspect-square object-cover grayscale group-hover:grayscale-0 transition-all duration-500" 
+                  onError={(e) => { e.target.src = `https://api.dicebear.com/9.x/bottts-neutral/svg?seed=${member._id}` }}
+                />
                 <div className="p-4 border-t-2 border-white">
                   <h3 className="font-bold text-xl uppercase tracking-wider text-white">{member.name}</h3>
                   <p className="font-stencil text-sm text-zinc-400 mb-3">{member.title}</p>
@@ -56,7 +71,12 @@ export default function MeetTheTeam() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {getTeamMembers(sub).map(member => (
                 <div key={member._id} className="bg-zinc-900 border border-zinc-800 hover:border-white transition-colors flex flex-col">
-                  <img src={member.profilePic} alt={member.name} className="w-full aspect-square object-cover grayscale opacity-70 hover:opacity-100 transition-all" />
+                  <img 
+                    src={getImageUrl(member.profilePic, member._id)} 
+                    alt={member.name} 
+                    className="w-full aspect-square object-cover grayscale opacity-70 hover:opacity-100 transition-all" 
+                    onError={(e) => { e.target.src = `https://api.dicebear.com/9.x/bottts-neutral/svg?seed=${member._id}` }}
+                  />
                   <div className="p-4 flex-grow flex flex-col">
                     <h3 className="font-bold text-lg uppercase tracking-wider text-white">{member.name}</h3>
                     <p className="font-stencil text-xs text-zinc-500 mb-2">{member.title}</p>

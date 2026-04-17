@@ -11,8 +11,8 @@ export default function Research() {
     const fetchData = async () => {
       try {
         const [subRes, teamRes] = await Promise.all([
-          axios.get('https://itss-backend-upy6.onrender.com/api/operations/subcommittee/Research'),
-          axios.get('https://itss-backend-upy6.onrender.com/api/users/public-team')
+          axios.get('/api/operations/subcommittee/Research'),
+          axios.get('/api/users/public-team')
         ]);
         setData(subRes.data);
         setTeam(teamRes.data.filter(member => member.team === 'Research'));
@@ -20,6 +20,14 @@ export default function Research() {
     };
     fetchData();
   }, []);
+
+  const getImageUrl = (url, fallbackSeed) => {
+    if (!url || url.includes('placeholder.com') || url.includes('NO+IMAGE')) {
+      return `https://api.dicebear.com/9.x/bottts-neutral/svg?seed=${fallbackSeed}`;
+    }
+    if (url.startsWith('/')) return `https://itss-backend-upy6.onrender.com${url}`;
+    return url;
+  };
 
   if (!data) return <div className="min-h-screen bg-itss-black text-itss-orange flex justify-center items-center font-stencil text-2xl animate-pulse">Loading Research Data...</div>;
 
@@ -70,7 +78,12 @@ export default function Research() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {team.map(member => (
               <div key={member._id} className="bg-itss-dark border border-itss-gray hover:border-itss-orange transition-colors flex flex-col">
-                <img src={member.profilePic} alt={member.name} className="w-full aspect-square object-cover grayscale opacity-70 hover:opacity-100 hover:grayscale-0 transition-all" />
+                <img 
+                  src={getImageUrl(member.profilePic, member._id)} 
+                  alt={member.name} 
+                  className="w-full aspect-square object-cover grayscale opacity-70 hover:opacity-100 hover:grayscale-0 transition-all" 
+                  onError={(e) => { e.target.src = `https://api.dicebear.com/9.x/bottts-neutral/svg?seed=${member._id}` }}
+                />
                 <div className="p-4 flex-grow flex flex-col">
                   <h3 className="font-bold text-lg uppercase tracking-wider text-white">{member.name}</h3>
                   <p className="font-stencil text-xs text-itss-orange mb-2">{member.title}</p>

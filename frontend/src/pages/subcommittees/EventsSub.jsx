@@ -12,9 +12,9 @@ export default function EventsSub() {
     const fetchData = async () => {
       try {
         const [subRes, teamRes, eventRes] = await Promise.all([
-          axios.get('https://itss-backend-upy6.onrender.com/api/operations/subcommittee/Events'),
-          axios.get('https://itss-backend-upy6.onrender.com/api/users/public-team'),
-          axios.get('https://itss-backend-upy6.onrender.com/api/operations/events')
+          axios.get('/api/operations/subcommittee/Events'),
+          axios.get('/api/users/public-team'),
+          axios.get('/api/operations/events')
         ]);
         setData(subRes.data);
         setTeam(teamRes.data.filter(member => member.team === 'Events'));
@@ -24,10 +24,12 @@ export default function EventsSub() {
     fetchData();
   }, []);
 
-  // Helper function to safely load both external web links and internal backend uploads
-  const getImageUrl = (url) => {
-    if (!url) return '';
-    return url.startsWith('/') ? `https://itss-backend-upy6.onrender.com${url}` : url;
+  const getImageUrl = (url, fallbackSeed = 'Event') => {
+    if (!url || url.includes('placeholder.com') || url.includes('NO+IMAGE')) {
+      return `https://api.dicebear.com/9.x/bottts-neutral/svg?seed=${fallbackSeed}`;
+    }
+    if (url.startsWith('/')) return `https://itss-backend-upy6.onrender.com${url}`;
+    return url;
   };
 
   if (!data) return <div className="min-h-screen bg-itss-black text-itss-secondary flex justify-center items-center font-stencil text-2xl animate-pulse">Loading Event Matrix...</div>;
@@ -56,7 +58,6 @@ export default function EventsSub() {
             {data.gallery && data.gallery.length > 0 ? (
               data.gallery.map((img, i) => (
                 <div key={i} className="relative group aspect-square overflow-hidden border-2 border-itss-gray hover:border-itss-secondary transition-colors">
-                  {/* THE FIX IS HERE: Safely fetching the image URL */}
                   <img src={getImageUrl(img.url)} alt={img.caption} className="w-full h-full object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500 scale-100 group-hover:scale-110" />
                   <div className="absolute bottom-0 left-0 w-full bg-black/80 p-2 transform translate-y-full group-hover:translate-y-0 transition-transform">
                     <p className="text-xs text-itss-white font-bold truncate">{img.caption}</p>
@@ -91,8 +92,12 @@ export default function EventsSub() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {team.map(member => (
               <div key={member._id} className="bg-itss-dark border border-itss-gray hover:border-itss-secondary transition-colors flex flex-col">
-                {/* Applied the same fix to profile pictures just in case */}
-                <img src={getImageUrl(member.profilePic)} alt={member.name} className="w-full aspect-square object-cover grayscale opacity-70 hover:opacity-100 hover:grayscale-0 transition-all" />
+                <img 
+                  src={getImageUrl(member.profilePic, member._id)} 
+                  alt={member.name} 
+                  className="w-full aspect-square object-cover grayscale opacity-70 hover:opacity-100 hover:grayscale-0 transition-all" 
+                  onError={(e) => { e.target.src = `https://api.dicebear.com/9.x/bottts-neutral/svg?seed=${member._id}` }}
+                />
                 <div className="p-4 flex-grow flex flex-col">
                   <h3 className="font-bold text-lg uppercase tracking-wider text-white">{member.name}</h3>
                   <p className="font-stencil text-xs text-itss-secondary mb-2">{member.title}</p>
